@@ -5,6 +5,7 @@ import generateToken from "../utils/index.js";
 const registerUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -37,19 +38,30 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const User = await User.findOne({ email });  
-    if (!User || !(await User.matchPasswords(password))) {
-      return res.status(401).json({ error: "Invalid login credentials" });  // Fixed typo here
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid login credentials" });
     }
 
-    const token = await generateToken(User._id);
+    
+    console.log("Entered Password:", password);
+    console.log("Stored Hash:", user.password);
+
+    
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ error: "Invalid login credentials" });
+    }
+
+    const token = generateToken(user._id);
 
     res.status(200).json({
-      id: User._id,
-      email: User.email,
+      id: user._id,
+      email: user.email,
       token,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
