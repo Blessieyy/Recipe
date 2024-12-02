@@ -6,15 +6,27 @@ const AddRecipe = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [recipeList, setRecipeList] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // Store the file
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file); // Convert the image file to base64
+      reader.onloadend = () => {
+        setImage(reader.result); // Set the base64 string as the image state
+      };
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const recipeData = { name, description, category, recipeList, image };
+
     try {
-      const recipeData = { name, description, category, recipeList, image };
-      const response = await addRecipe(recipeData);
+      const response = await addRecipe(recipeData); // Send the recipe data including base64 image
       setSuccess("Recipe added successfully!");
       setError("");
     } catch (error) {
@@ -52,10 +64,9 @@ const AddRecipe = () => {
         required
       />
       <input
-        type="text"
-        placeholder="Image URL"
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
       />
       <button type="submit">Add Recipe</button>
       {error && <p>{error}</p>}

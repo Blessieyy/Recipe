@@ -1,16 +1,28 @@
 import Recipe from "../models/recipeModel.js";
 
+
 const addRecipe = async (req, res) => {
   try {
-    const newRecipe = await Recipe.create(req.body);
+    const { name, description, category, recipeList, image } = req.body;
+
+    
+    if (image && !/^data:image\/[a-zA-Z]+;base64,/.test(image)) {
+      return res.status(400).json({ error: "Invalid base64 image format" });
+    }
+
+    const newRecipe = await Recipe.create({
+      name,
+      description,
+      category,
+      recipeList,
+      image, 
+    });
+
     res.status(201).json(newRecipe);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occured while create adding recipe" });
+    res.status(500).json({ error: "An error occurred while adding the recipe" });
   }
 };
-
 const getRecipes = async (req, res) => {
   try {
     const { page = 1, limit = 5 } = req.query;

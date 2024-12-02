@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+}
+.input {
+  box-shadow: 0 5px 10px gray;
+  padding: .75em;
+  padding-right: 10em;
+  border-radius: 5px;
+  border-left: .5em solid rgb(255, 0, 106);
+  background-color: rgb(255, 255, 255);
+  margin-top: 1em;
+  margin: .75em;
+  display: flex;
+}
+:root{
+  --background-color: #fff;
+  --background-light: #fff;
+  --shadow-color: rgba(0,0,0,0.2);
+  --primary-color: rgb(255, 0, 86);
+  --text-color: #0A0A0A;
+  --text-light: #575757;
+  --font-size: 16px;
+  --animation-speed: 1;
+}
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  padding-top: 55px;
+}
+a{
+text-decoration: none;  
+}
+img{
+  object-fit: cover;
+}
+
+.btn{
+  border: none;
+  outline: none;
+  background-color: rgb(255, 0, 106);
+  color: #fff;
+  padding: .75em 1em;
+  // text-transform: uppercase;
+  font-size: 1.1em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px black;
+
+  
+  &:hover{
+      box-shadow: 0 1px 3px black;
+      transition: calc(0.5s)
+  }
+
+}
+
+.recipes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-gap: 1.5em;
+}
+
+.recipe-card {
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgb(99, 96, 96);
+
+  .recipe-card-info {
+    padding: 15px;
+  }
+
+  .custom-image {
+    z-index: -1;
+  }
+
+  .author-img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: 3px solid rgb(228, 212, 212);
+    box-shadow: 0 1px 3px rgb(99, 96, 96);
+    margin-top: -50px;
+    z-index: 2;
+  }
+
+  .recipe-title {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: black;
+    margin-top: 0.25em;
+  }
+
+  .recipe-desc {
+    color: #a09e9e;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+  }
+
+  .view-btn {
+    font-size: 1em;
+    font-weight: bold;
+    color: rgb(255, 0, 106);
+    margin-top: 0.75em;
+    display: inline-block;
+  }
+}

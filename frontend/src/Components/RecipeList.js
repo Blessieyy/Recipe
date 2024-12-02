@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { getRecipes } from "../api";
+import { useNavigate } from "react-router-dom";
+import RecipeCard from "../Components/RecipeCard"; // Importing RecipeCard component
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/add");
+  };
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const response = await getRecipes(page, limit);
         setRecipes(response.data.recipes);
+        console.log(response.data.recipes);
       } catch (error) {
         console.error("Error fetching recipes", error);
       }
@@ -32,23 +40,19 @@ const RecipeList = () => {
       {recipes.length === 0 ? (
         <p>No recipes available</p>
       ) : (
-        <ul>
+        <div className="recipes-container">
           {recipes.map((recipe) => (
-            <li key={recipe._id}>
-              <h3>{recipe.name}</h3>
-              <p>{recipe.description}</p>
-              <p>{recipe.category}</p>
-              <p>{recipe.recipeList}</p>
-              <img src={recipe.image} alt={recipe.name} />
-            </li>
+            <RecipeCard key={recipe._id} recipe={recipe} />
           ))}
-        </ul>
+        </div>
       )}
       <div>
-        <button onClick={prevPage} disabled={page <= 1}>
+        <button onClick={handleClick}>Add Recipe</button>
+      </div>
+      <div>
+        <button onClick={prevPage} disabled={page === 1}>
           Previous
         </button>
-        <span> Page {page} </span>
         <button onClick={nextPage}>Next</button>
       </div>
     </div>
